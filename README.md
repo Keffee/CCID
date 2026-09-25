@@ -14,8 +14,6 @@ pip install -e .
 
 ## What you need
 
-Prepare your OpenOneRec installation, frozen model weights, and input tensors separately. This repository does not include datasets, checkpoints, or data preparation tools.
-
 The backbone must be a local Hugging Face decoder that accepts `inputs_embeds` and returns `last_hidden_state`. The included adapter supports the Qwen3-style decoder used by OneRec. It loads local files only; a different backbone may need an adapter in `ccid/backbone.py`.
 
 Each episode file is a PyTorch dictionary with `split` (`train`, `validation`, or `test`) and an `episodes` list. Each episode contains:
@@ -28,7 +26,7 @@ Each episode file is a PyTorch dictionary with `split` (`train`, `validation`, o
 | `history_states` | Float tensor `[H, D]`; visible history, possibly empty |
 | `base_scores` | Float tensor `[K]`; higher scores rank first |
 
-The default input width is `D=2048`. Lists may have different lengths. Supply valid candidates only, without padding or duplicate IDs. Inputs must use history available before the request. Train and validation requests must be disjoint.
+Lists may have different lengths. Supply valid candidates only, without padding or duplicate IDs. Inputs must use history available before the request. Train and validation requests must be disjoint.
 
 Keep supervision in separate JSONL files with `request_id` and `target_id`. Include every request, even when its target is absent from the candidate pool.
 
