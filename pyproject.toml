@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccid"
+version = "0.1.0"
+description = "Candidate-Conditioned Implicit Debate"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.6,<3",
+    "transformers>=4.51,<5",
+    "numpy>=1.24",
+]
+
+[tool.setuptools.packages.find]
+include = ["ccid*"]

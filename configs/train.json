@@ -1,0 +1,41 @@
+{
+  "backbone": {
+    "path": "external/OneRec-1.7B",
+    "dtype": "bfloat16",
+    "trust_remote_code": false
+  },
+  "model": {
+    "input_dim": 2048,
+    "state_dim": 128,
+    "max_rounds": 4,
+    "top_k": 5,
+    "disagreement_threshold": 0.05,
+    "max_calls": 12,
+    "adaptive": true,
+    "interface": "latent",
+    "feedback": true,
+    "role_mode": "utility_risk"
+  },
+  "training": {
+    "seed": 1,
+    "epochs": 3,
+    "batch_size": 8,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.0001,
+    "grad_clip": 1,
+    "k": 8,
+    "device": "cuda",
+    "loss_weights": {
+      "utility_weight": 1,
+      "risk_weight": 1,
+      "listwise_weight": 1
+    }
+  },
+  "data": {
+    "train": "inputs/train.pt",
+    "train_labels": "inputs/train_labels.jsonl",
+    "validation": "inputs/validation.pt",
+    "validation_labels": "inputs/validation_labels.jsonl"
+  },
+  "output_dir": "runs/ccid"
+}
