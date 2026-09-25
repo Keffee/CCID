@@ -95,22 +95,3 @@ To train with memory, add this object to the training config and choose a new ou
 ```
 
 Use the request cutoff date for `as_of`. For prediction, pass the same snapshot with `--memory`, `--scope`, and `--as-of`; keep the scope and retrieval count used during training. Retrieval happens once per request; every round reads the same snapshot and never writes to it.
-
-## Implementation notes
-
-- Candidate IDs bind states and past responses across ranking changes.
-- Each candidate has its own attention sequence. Shared history and the current leader are explicit context.
-- A complete round counts as three logical calls: utility, risk, and adjudication. This count does not equate FLOPs across backbones.
-- Stopping conflict is the largest joint utility challenge and risk veto among nonleaders. Top-k order must remain unchanged with low conflict for two consecutive rounds.
-- `feedback=false` repeats the initial board; `interface="score_only"` removes continuous exchanged messages and updated-state feedback. `role_mode` also supports `duplicate_utility` and `unified`; these controls require `adaptive=false` and a fixed round budget.
-- The example settings are starting values. This core implementation does not bundle the configurations or artifacts needed to reproduce the paper's reported tables.
-
-Validated with PyTorch 2.9.1 and Transformers 4.52.4.
-
-## Tests
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-Tests create small random inputs and tiny decoders in temporary directories. They cover identity binding, gradients through the frozen backbone, feedback, stopping, memory, and training/checkpoint/prediction.
